@@ -98,7 +98,7 @@ app.get('/reviews/:product_id', (req, res) => {
 
   axios.get(endpoint, {
     headers: {
-      "Authorization": TOKEN.TOKEN,
+      'Authorization': TOKEN.TOKEN,
     },
     params: {
       'product_id': id,
@@ -217,7 +217,7 @@ app.get('/qa/questions', (req, res) => {
 
   axios.get(endpoint, {
     headers: {
-      "Authorization": TOKEN.TOKEN,
+      'Authorization': TOKEN.TOKEN,
     },
     params: {
       product_id: id,
@@ -226,12 +226,12 @@ app.get('/qa/questions', (req, res) => {
     }
   })
     .then((response) => {
-    console.log(response);
+      console.log(response);
       res.send(response.data);
     })
     .catch((err) => {
       console.log('Error! ', err);
-    })
+    });
 });
 
 app.get('/qa/questions/:product_id/answers', (req, res) => {
@@ -264,19 +264,19 @@ app.put('/qa/answers/:answer_id/helpful', (req, res) => {
 
   axios.put(endpoint, count, {
     headers: {
-      "Authorization": TOKEN.TOKEN,
+      'Authorization': TOKEN.TOKEN,
     },
     query: {
-      "answer_id": id,
+      'answer_id': id,
     }
   })
-  .then((response) => {
-    console.log('Response in server:', response)
-    res.send(count);
-  })
-  .catch((err) => {
-    console.log('Error! ', err);
-  })
+    .then((response) => {
+      console.log('Response in server:', response);
+      res.send(count);
+    })
+    .catch((err) => {
+      console.log('Error! ', err);
+    });
 });
 
 app.put('/qa/answers/:answer_id/report', (req, res) => {
@@ -285,29 +285,29 @@ app.put('/qa/answers/:answer_id/report', (req, res) => {
   console.log('Response in server PUT', res);
   axios.put(endpoint, id, {
     headers: {
-      "Authorization": TOKEN.TOKEN,
+      'Authorization': TOKEN.TOKEN,
     }
   })
-  .then(response => {
-    res.send(response);
-  })
+    .then(response => {
+      res.send(response);
+    });
 });
 
 app.post('/qa/questions', (req, res) => {
   let newQ = req.body;
-  let endpoint = url + 'qa/questions'
+  let endpoint = url + 'qa/questions';
   console.log('Q&A POST: ', req);
   axios.post(endpoint, newQ, {
     headers: {
-      "Authorization": TOKEN.TOKEN,
+      'Authorization': TOKEN.TOKEN,
     }
   })
-  .then((response) => {
-    res.send(response.data);
-  })
-  .catch((err) => {
-    console.error(err);
-  })
+    .then((response) => {
+      res.send(response.data);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 });
 
 app.post('/qa/questions/:question_id/answers', (req, res) => {
@@ -317,15 +317,15 @@ app.post('/qa/questions/:question_id/answers', (req, res) => {
   console.log('Q&A POST FOR ADDING ANSWERS: ', req);
   axios.post(endpoint, newA, {
     headers: {
-      "Authorization": TOKEN.TOKEN,
+      'Authorization': TOKEN.TOKEN,
     }
   })
-  .then((response) => {
-    res.send(response.data);
-  })
-  .catch((err) => {
-    console.error(err);
-  })
+    .then((response) => {
+      res.send(response.data);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 });
 
 
