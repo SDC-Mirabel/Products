@@ -16,7 +16,7 @@ app.use(express.json());
 
 
 // Products Routes
-// app.use('/products', router);
+app.use('/products', router);
 //----------------------------------------------------------------------------------
 // app.get('/', function(req, res) {
 //   console.log('Hi');
@@ -24,58 +24,58 @@ app.use(express.json());
 // });
 
 
-app.get('/products', (req, res) => {
-  let endpoint = url + 'products';
-  axios.get(endpoint, {
-    headers: {
-      'Authorization': TOKEN,
-    }
-  })
-    .then((response) => {
-      // console.log('Data from get to Products endpoint::::::: ', response.data);
-      let jsonData = JSON.stringify(response.data);
-      res.send(response.data);
-    })
-    .catch((err) => {
-      console.log('Error! This is the old get products', err);
-    });
-});
+// app.get('/products', (req, res) => {
+//   let endpoint = url + 'products';
+//   axios.get(endpoint, {
+//     headers: {
+//       'Authorization': TOKEN,
+//     }
+//   })
+//     .then((response) => {
+//       // console.log('Data from get to Products endpoint::::::: ', response.data);
+//       let jsonData = JSON.stringify(response.data);
+//       res.send(response.data);
+//     })
+//     .catch((err) => {
+//       console.log('Error! This is the old get products', err);
+//     });
+// });
 
-app.get('/products/:product_id', (req, res) => {
-  let id = req.params.product_id;
-  // console.log('this is the parammmmss::::', req.params);
-  let endpoint = url + 'products/' + id;
-  axios.get(endpoint, {
-    headers: {
-      'Authorization': TOKEN,
-    }
-  })
-    .then((response) => {
-      // console.log(response);
-      res.send(response.data);
-    })
-    .catch((err) => {
-      console.log('Error! THis is a product info error ', err);
-    });
-});
+// app.get('/products/:product_id', (req, res) => {
+//   let id = req.params.product_id;
+//   // console.log('this is the parammmmss::::', req.params);
+//   let endpoint = url + 'products/' + id;
+//   axios.get(endpoint, {
+//     headers: {
+//       'Authorization': TOKEN,
+//     }
+//   })
+//     .then((response) => {
+//       // console.log(response);
+//       res.send(response.data);
+//     })
+//     .catch((err) => {
+//       console.log('Error! THis is a product info error ', err);
+//     });
+// });
 
-app.get('/products/:product_id/styles', (req, res) => {
-  let id = req.params.product_id;
-  let endpoint = url + 'products/' + id + '/styles';
+// app.get('/products/:product_id/styles', (req, res) => {
+//   let id = req.params.product_id;
+//   let endpoint = url + 'products/' + id + '/styles';
 
-  axios.get(endpoint, {
-    headers: {
-      'Authorization': TOKEN,
-    }
-  })
-    .then((response) => {
-      console.log('this is the styles get response::::',response.data.results[0].photos);
-      res.send(response.data);
-    })
-    .catch((err) => {
-      console.log('Error! from styles call::::::', err);
-    });
-});
+//   axios.get(endpoint, {
+//     headers: {
+//       'Authorization': TOKEN,
+//     }
+//   })
+//     .then((response) => {
+//       console.log('this is the styles get response::::', response.data.results[0].photos);
+//       res.send(response.data);
+//     })
+//     .catch((err) => {
+//       console.log('Error! from styles call::::::', err);
+//     });
+// });
 
 // app.get('/products/:product_id/related', (req, res) => {
 //   let id = req.params.product_id;

@@ -12,6 +12,7 @@ const pool = new Pool({
 // ---- Query Strings --------//
 const getAllProductsQuery = 'SELECT * FROM product LIMIT 10';
 const getProductInfoQuery = 'SELECT * FROM product WHERE id = $1';
+const getStylesInfoQuery = 'SELECT "id", "name", "sale_price", "original_price", "isDefault" FROM styles WHERE product_id = $1';
 
 
 
@@ -27,6 +28,10 @@ module.exports = {
       cb(err, results);
     });
   },
-  // build getAllStyles func here // test data matches what api wants
+  getAllStyles: function(params, cb) {
+    pool.query(getStylesInfoQuery, params, function(err, result) {
+      cb(err, results);
+    });
+  }
 
 };
