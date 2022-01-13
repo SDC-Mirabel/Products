@@ -1,5 +1,5 @@
 const Pool = require('pg').Pool;
-const { ps } = require('../../config.js');
+const ps = require('../../dbConfig.js');
 
 const pool = new Pool({
   user: 'postgres',
@@ -9,4 +9,16 @@ const pool = new Pool({
   database: 'postgres'
 });
 
-module.exports = pool;
+// ---- Query Strings --------//
+const getAllProductsQuery = 'SELECT * FROM product LIMIT 10';
+
+
+
+// ---------- models to export to server ? ------
+module.exports = {
+  getProducts: function(cb) {
+    pool.query(getAllProductsQuery, function(err, results) {
+      cb(err, results);
+    });
+  },
+};
