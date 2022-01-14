@@ -32,7 +32,7 @@ app.use('/products', router);
 //     }
 //   })
 //     .then((response) => {
-//       // console.log('Data from get to Products endpoint::::::: ', response.data);
+//       console.log('Data from get to Products endpoint::::::: ', response.data);
 //       let jsonData = JSON.stringify(response.data);
 //       res.send(response.data);
 //     })
@@ -51,7 +51,7 @@ app.use('/products', router);
 //     }
 //   })
 //     .then((response) => {
-//       // console.log(response);
+//       console.log('this is the old products info', response.data);
 //       res.send(response.data);
 //     })
 //     .catch((err) => {
@@ -69,7 +69,7 @@ app.use('/products', router);
 //     }
 //   })
 //     .then((response) => {
-//       console.log('this is the styles get response::::', response.data.results[0].photos);
+//       console.log('this is the styles get response::::', response.data.results[0]);
 //       res.send(response.data);
 //     })
 //     .catch((err) => {
