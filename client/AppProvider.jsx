@@ -64,8 +64,8 @@ export const AppProvider = (props) => {
   useEffect(() => {
     axios.get('/products')
       .then((res) => {
-        console.log('products', res.data);
         const id = res.data[0].id;
+        console.log('products', res.data, id);
         setProductId(id);
       })
       .catch((err) => {

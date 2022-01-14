@@ -10,8 +10,8 @@ const pool = new Pool({
 });
 
 // ---- Query Strings --------//
-const getAllProductsQuery = 'SELECT * FROM product LIMIT 10';
-const getProductInfoQuery = 'SELECT * FROM product WHERE id = $1';
+const getAllProductsQuery = 'SELECT category, id, name, default_price::text, slogan, description FROM product LIMIT 5';
+const getProductInfoQuery = 'SELECT category, id, name, default_price::text, slogan, description FROM product WHERE id = $1';
 const getStylesInfoQuery = 'SELECT "id", "name", "sale_price", "original_price", "isDefault" FROM styles WHERE product_id = $1';
 
 
@@ -24,12 +24,23 @@ module.exports = {
     });
   },
   getProductInfo: function(params, cb) {
-    pool.query(getProductInfoQuery, params, function(err, results) {
-      cb(err, results);
-    });
+    let holder;
+    if (params[0] === 'null') {
+      holder = [1];
+      pool.query(getProductInfoQuery, holder, function(err, results) {
+        console.log('these the getproductInfo results', results.rows);
+        cb(err, results);
+      });
+    } else {
+      pool.query(getProductInfoQuery, params, function(err, results) {
+        console.log('these the getproductInfo results', results.rows);
+        cb(err, results);
+      });
+    }
   },
   getAllStyles: function(params, cb) {
     pool.query(getStylesInfoQuery, params, function(err, result) {
+      // console.log('these the getAllStyles results', results);
       cb(err, results);
     });
   }
