@@ -1,3 +1,0 @@
-do we have cors?
-express setup?
-install pg?

@@ -3,7 +3,6 @@ import { AppContext } from '../AppProvider.jsx';
 
 
 let ImportStarsForRelated = ({rating, module}) => {
-
   // let [rateAverage, setRateAverage] = useState(Number(rating / 20).toFixed(1));
 
   const [productId, setProductId] = useContext(AppContext);

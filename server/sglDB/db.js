@@ -51,36 +51,41 @@ module.exports = {
     }
   },
   getAllStyles: function(params, cb) {
-    if (params[0] === 'null') {
-      return;
-    } else {
-      pool.query(stylesQuery2, params, function(err, results) {
-        let fullResults = {
+
+    pool.query(stylesQuery2, params, function(err, results) {
+      let fullResults = {};
+      if (results !== undefined) {
+        fullResults = {
           'product_id': params[0] + '',
           results: results.rows
         };
 
         fullResults.results.forEach((result) => {
-          result.holder = {};
-          result.skus.forEach((sku) => {
-            result.holder[sku.id] = {'quantity': sku.quantity, 'size': sku.size};
-          });
-          result.skus = result.holder;
-          result.holder = undefined;
+          if (result.skus !== null) {
+            result.holder = {};
+            result.skus.forEach((sku) => {
+              result.holder[sku.id] = {'quantity': sku.quantity, 'size': sku.size};
+            });
+            result.skus = result.holder;
+            result.holder = undefined;
+
+          }
         });
+      }
 
-        cb(err, fullResults);
-      });
+      cb(err, fullResults);
+    });
 
-    }
   },
   getAllRelated: function(params, cb) {
     pool.query(getRelatedQuery, params, function(err, results) {
       let newResults = [];
-      results.rows.forEach((row) => {
-        newResults.push(row.related_product_id);
-      });
-      console.log('these the related db results', newResults);
+      if (results !== undefined ) {
+        results.rows.forEach((row) => {
+          newResults.push(row.related_product_id);
+        });
+      }
+      // console.log('these the related db results', newResults);
       cb(err, newResults);
     });
   }
