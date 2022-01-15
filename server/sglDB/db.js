@@ -13,35 +13,10 @@ const pool = new Pool({
 const getAllProductsQuery = 'SELECT category, id, name, default_price::text, slogan, description FROM product LIMIT 5';
 const getProductInfoQuery = 'SELECT category, id, name, default_price::text, slogan, description FROM product WHERE id = $1';
 const getStylesInfoQuery = 'SELECT "id", "name", "sale_price", "original_price", "isDefault" FROM styles WHERE product_id = $1';
-const test = 'SELECT feature, value FROM features WHERE product_id = $1';
-// need to add features to the product info query
-// test feature query: SELECT feature, value FROM features WHERE product_id = 1;
+const featuresQuery = 'SELECT feature, value FROM features WHERE product_id = $1';
+const stylesQuery2 = 'SELECT "style_id", "name", "original_price", CASE WHEN "sale_price" = null THEN null END AS "sale_price", ( select json_agg(photos) FROM (SELECT "thumbnail_url", "url" FROM photos WHERE "styleId" = styles.style_id) photos ) AS "photos", (select json_agg(skus) FROM (SELECT "id", "size", "quantity" FROM skus WHERE "styleId" = styles.style_id) skus ) AS "skus" FROM styles WHERE "product_id" = $1';
+const getRelatedQuery = 'SELECT related_product_id FROM related WHERE "current_product_id" = $1';
 
-/*
-
-this is the styles get response::::
-{ product_id: '40351',
-  results: [
-    {
-      style_id: 240536,
-      name: 'Zebra Stripe',
-      original_price: '900.00',
-      sale_price: null,
-      'default?': false,
-      photos: [Array],
-      skus: [Object]
-    },
-    {
-      style_id: 240537,
-      name: 'Oreo',
-      original_price: '750.00',
-      sale_price: null,
-      'default?': false,
-      photos: [Array],
-      skus: [Object]
-    },
-  }
-*/
 
 // ---------- models to export to server ? ------
 module.exports = {
@@ -57,7 +32,7 @@ module.exports = {
       let data;
       pool.query(getProductInfoQuery, holder, function(err1, results) {
         data = results.rows[0];
-        pool.query(test, holder, (err2, result) => {
+        pool.query(featuresQuery, holder, (err2, result) => {
           data.features = result.rows;
           // console.log('2::', data);
           cb(err1 || err2, data);
@@ -67,7 +42,7 @@ module.exports = {
       let data;
       pool.query(getProductInfoQuery, params, function(err1, results) {
         data = results.rows[0];
-        pool.query(test, params, (err2, result) => {
+        pool.query(featuresQuery, params, (err2, result) => {
           data.features = result.rows;
           // console.log('2::', data);
           cb(err1 || err2, data);
@@ -76,12 +51,37 @@ module.exports = {
     }
   },
   getAllStyles: function(params, cb) {
-    pool.query(getStylesInfoQuery, params, function(err, result) {
-      let fullResults = {
+    if (params[0] === 'null') {
+      return;
+    } else {
+      pool.query(stylesQuery2, params, function(err, results) {
+        let fullResults = {
+          'product_id': params[0] + '',
+          results: results.rows
+        };
 
-      };
-      // console.log('these the getAllStyles results', results);
-      cb(err, results);
+        fullResults.results.forEach((result) => {
+          result.holder = {};
+          result.skus.forEach((sku) => {
+            result.holder[sku.id] = {'quantity': sku.quantity, 'size': sku.size};
+          });
+          result.skus = result.holder;
+          result.holder = undefined;
+        });
+
+        cb(err, fullResults);
+      });
+
+    }
+  },
+  getAllRelated: function(params, cb) {
+    pool.query(getRelatedQuery, params, function(err, results) {
+      let newResults = [];
+      results.rows.forEach((row) => {
+        newResults.push(row.related_product_id);
+      });
+      console.log('these the related db results', newResults);
+      cb(err, newResults);
     });
   }
 
