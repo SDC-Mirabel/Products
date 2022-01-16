@@ -8,7 +8,6 @@ module.exports = {
         console.log('oops, having trouble contacting database:::', err);
         res.sendStatus(500);
       } else {
-        // console.log('these are the new results', results.rows);
         res.status(200).send(results.rows);
       }
     });
@@ -20,14 +19,12 @@ module.exports = {
     } else {
       params = [req.params.product_id];
     }
-    // console.log('testing:::::', req.params.product_id);
 
     models.getProductInfo(params, (err, results) => {
       if (err) {
         console.log('problem getting a products info', req.params, err);
         res.sendStatus(500);
       } else {
-        // console.log('these are the new products infos:::', params, results);
         res.status(200).send(results);
       }
     });
@@ -44,9 +41,7 @@ module.exports = {
         console.log('problem getting product styles info', err);
         res.sendStatus(500);
       } else {
-        // console.log('these are the product styles::::', results);
         res.status(200).send(results);
-        // console.log('this is the getAllStyles controller response', res);
       }
     });
   },
@@ -69,5 +64,3 @@ module.exports = {
   }
 
 };
-
-// need to add fetaures toz
