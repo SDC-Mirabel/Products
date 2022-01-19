@@ -4,7 +4,7 @@ const app = express();
 const path = require('path');
 const axios = require('axios');
 const TOKEN = require('../config.js');
-// const db = require('./sglDB/db.js');
+const db = require('./sglDB/db.js');
 const router = require('./routes.js');
 
 let url = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/';

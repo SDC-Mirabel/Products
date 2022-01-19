@@ -1,13 +1,20 @@
 const Pool = require('pg').Pool;
-const ps = require('../../dbConfig.js');
-
+// const ps = require('../../dbConfig.js');
+//ec2 settings
 const pool = new Pool({
   user: 'postgres',
-  password: ps,
-  host: 'localhost',
+  host: '',
   port: 5432,
-  database: 'postgres'
+  database: 'sdc'
 });
+//local settings
+// const pool = new Pool({
+//   user: 'postgres',
+//   password: ps,
+//   host: 'localhost',
+//   port: 5432,
+//   database: 'postgres'
+// });
 
 // ---- Query Strings --------//
 const getAllProductsQuery = 'SELECT category, id, name, default_price::text, slogan, description FROM product LIMIT 5';

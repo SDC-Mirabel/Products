@@ -41,7 +41,9 @@ module.exports = {
         console.log('problem getting product styles info', err);
         res.sendStatus(500);
       } else {
-        res.status(200).send(results);
+        let newResults = {};
+        newResults.results = results;
+        res.status(200).send(newResults);
       }
     });
   },
