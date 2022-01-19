@@ -120,10 +120,10 @@ class QuestionsAndAnswers extends React.Component {
       this.setState({
         productName: response.data.name
       })
-      console.log(response.data);
+      console.log('the response from getProdName Q&A',response.data);
     })
     .catch((err) => {
-      console.error('Error! ', err);
+      console.error('Error! from getProdName ', err);
     });
   }
 

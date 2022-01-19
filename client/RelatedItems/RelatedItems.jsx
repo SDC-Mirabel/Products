@@ -84,6 +84,7 @@ var Related = () => {
   let getPicture = (id, index, cb) => {
     axios.get(`products/${id}/styles`)
       .then((res) => {
+        console.log('this is the getPicture res', res.data);
         let tempPics = relPictures;
         tempPics[index] = (res.data.results[0].photos[0].thumbnail_url);
         setRelPictures(tempPics);
@@ -92,7 +93,7 @@ var Related = () => {
         cb(id, index, showState);
       })
       .catch((err) => {
-        console.log(err);
+        console.log('this is an error from getPicture', err);
       });
   };
 

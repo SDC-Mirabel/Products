@@ -5,7 +5,7 @@ export const AppContext = createContext();
 
 export const AppProvider = (props) => {
 
-  const [productId, setProductId] = useState(null);
+  const [productId, setProductId] = useState(40344);
 
   const [clickEventArray, setClickEventArray] = useState([]);
   let parentElement = '';
@@ -64,9 +64,9 @@ export const AppProvider = (props) => {
   useEffect(() => {
     axios.get('/products')
       .then((res) => {
-        console.log('products', res.data);
         const id = res.data[0].id;
-        setProductId(id);
+        // console.log('products', res.data, id);
+        setProductId(40344);
       })
       .catch((err) => {
         console.log(err);

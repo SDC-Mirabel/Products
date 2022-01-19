@@ -42,28 +42,29 @@ export const OverviewProvider = (props) => {
   useEffect(() => {
     if (productId === null) {
       return;
+    } else {
+      axios.get(`/products/${productId}`)
+        .then((res) => {
+          productPending = Object.assign({}, res.data);
+          const id = productPending.id;
+          return axios.get(`/products/${id}/styles`);
+        })
+        .then((res) => {
+          productPending['all_styles'] = res.data.results;
+          resetSelectedStyle(productPending['all_styles']);
+          const selectedStyle = productPending['all_styles'][0];
+          selectedStyle.selected = true;
+          productPending['style_name'] = selectedStyle['name'];
+          productPending['sizes'] = sortSizes(selectedStyle);
+          productPending['photos'] = selectedStyle.photos;
+          productPending['original_price'] = selectedStyle.original_price;
+          productPending['sale_price'] = selectedStyle.sale_price;
+          setProduct(productPending);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-    axios.get(`/products/${productId}`)
-      .then((res) => {
-        productPending = Object.assign({}, res.data);
-        const id = productPending.id;
-        return axios.get(`/products/${id}/styles`);
-      })
-      .then((res) => {
-        productPending['all_styles'] = res.data.results;
-        resetSelectedStyle(productPending['all_styles']);
-        const selectedStyle = productPending['all_styles'][0];
-        selectedStyle.selected = true;
-        productPending['style_name'] = selectedStyle['name'];
-        productPending['sizes'] = sortSizes(selectedStyle);
-        productPending['photos'] = selectedStyle.photos;
-        productPending['original_price'] = selectedStyle.original_price;
-        productPending['sale_price'] = selectedStyle.sale_price;
-        setProduct(productPending);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   }, [productId]);
 
   return (
